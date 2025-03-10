@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-red: #e31837;
+            --light-red: #ff3b5c;
+            --dark-red: #b31230;
+            --off-white: #f8f9fa;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--off-white) 0%, #ffffff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: white !important;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin-top: 2rem;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-red);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(227, 24, 55, 0.1);
+            transition: transform 0.3s ease;
+            background: white;
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-select, .btn {
+            border-radius: 10px;
+            padding: 0.8rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-red), var(--light-red));
+            border: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, var(--dark-red), var(--primary-red));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(227, 24, 55, 0.3);
+        }
+
+        #predictedExpense {
+            color: var(--primary-red);
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .form-label {
+            color: var(--dark-red);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        canvas {
+            padding: 1rem;
+        }
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-red);
+            color: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-icon:hover {
+            background: var(--secondary-red);
+        }
+        
+        .chatbot-frame {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            border: none;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<!-- Chatbot Icon -->
+<div class="chatbot-icon" onclick="toggleChatbot()">
+    <i class="fas fa-robot fa-2x"></i>
+</div>
+
+<!-- Chatbot Iframe -->
+<iframe id="chatbotFrame" class="chatbot-frame" src="https://www.chatbase.co/chatbot-iframe/q_egvCKukLI8G5r7aZAzi"></iframe>
+
+<script>
+    function toggleChatbot() {
+        var chatbot = document.getElementById("chatbotFrame");
+        chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
+    }
+</script>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">ExpenseTracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/transactions">Transactions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Expense Prediction</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <label class="form-label">Select a Month to Predict</label>
+                <select id="monthSelector" class="form-select mb-3">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                </select>
+                
+                <button class="btn btn-primary w-100" onclick="predictExpense()">Predict Expense</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Predicted Expense</h5>
+                <h2 id="predictedExpense">₹0</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Expense History & Prediction</h5>
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Your existing JavaScript code remains the same
+        let expenseChart;
+
+        async function predictExpense() {
+            const month = document.getElementById('monthSelector').value;
+            const response = await fetch(`/predict_expense/${month}`);
+            const data = await response.json();
+
+            if (data.status === "success") {
+                document.getElementById('predictedExpense').textContent = "₹" + data.predicted_expense.toFixed(2);
+                updateChart(data.all_expenses, month, data.predicted_expense);
+            } else {
+                alert("Error: " + data.message);
+            }
+        }
+
+        function updateChart(expenses, predictedMonth, predictedExpense) {
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            const dataPoints = expenses.map((value, index) => ({
+                x: index + 1,
+                y: value,
+                backgroundColor: months[index] === predictedMonth ? 'red' : 'blue',
+                radius: months[index] === predictedMonth ? 8 : 5
+            }));
+
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+
+            if (expenseChart) {
+                expenseChart.destroy();
+            }
+
+            expenseChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: "Monthly Expenses",
+                        data: dataPoints,
+                        pointBackgroundColor: dataPoints.map(p => p.backgroundColor),
+                        pointRadius: dataPoints.map(p => p.radius),
+                        showLine: true,
+                        borderColor: "rgba(227, 24, 55, 0.6)",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            ticks: { stepSize: 1, callback: function(value) { return months[value - 1]; } }
+                        },
+                        y: { title: { display: true, text: "Expense (₹)" } }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return months[context.raw.x - 1] + ": ₹" + context.raw.y.toFixed(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

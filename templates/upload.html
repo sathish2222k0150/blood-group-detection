@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Blood Group Detection</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/images/graps.png" rel="icon">
+  <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css/style.css" rel="stylesheet">
+   <!-- Chatbot Icon -->
+ <div class="chatbot-icon" onclick="toggleChatbot()">
+    <i class="fas fa-robot fa-2x"></i>
+</div>
+
+<!-- Chatbot Iframe -->
+<iframe id="chatbotFrame" class="chatbot-frame" src="https://www.chatbase.co/chatbot-iframe/q_egvCKukLI8G5r7aZAzi"></iframe>
+
+<script>
+    function toggleChatbot() {
+        var chatbot = document.getElementById("chatbotFrame");
+        chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
+    }
+</script>
+      <style>
+        /* Modern CSS Reset and Variables */
+/* Modern CSS Reset and Variables */
+/* Modern CSS Reset and Variables */
+:root {
+    --primary-red: #dc3545;
+    --secondary-red: #c82333;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --lighter-gray: #e9ecef;
+    --medium-gray: #6c757d;
+    --dark-gray: #343a40;
+    --text-dark: #2d3436;
+    --card-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+    --transition: all 0.3s ease;
+    --border-radius: 8px;
+}
+
+.chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-red);
+    color: var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chatbot-icon:hover {
+    background: var(--secondary-red);
+}
+
+.chatbot-frame {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    border: none;
+    display: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+/* Base Styles */
+body {
+    background-color: var(--light-gray);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    z-index: 1000;
+    transition: var(--transition);
+    overflow-y: auto;
+}
+
+.sidebar h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    color: var(--white);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+.sidebar ul::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar ul::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+}
+
+.sidebar ul::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius);
+}
+
+.sidebar ul li {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+    text-align: center;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background-color: var(--white);
+    color: var(--primary-red);
+    transform: translateX(5px);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 280px;
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    margin-bottom: 1.5rem;
+    background-color: var(--white);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.2);
+}
+
+.budget-card {
+    border-left: 4px solid var(--primary-red);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.card-text {
+    color: var(--primary-red);
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* Button Styles */
+.btn-action {
+    background-color: var(--primary-red);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.btn-action:hover {
+    background-color: var(--secondary-red);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+/* Progress Bar */
+.progress {
+    height: 1.5rem;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--primary-red);
+    transition: width 0.6s ease;
+}
+
+/* Table Styles */
+.table-responsive {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: var(--primary-red);
+    color: var(--white);
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--lighter-gray);
+    color: var(--text-dark);
+}
+
+.table tbody tr {
+    transition: var(--transition);
+}
+
+.table tbody tr:hover {
+    background-color: var(--light-gray);
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: var(--border-radius);
+    border: none;
+    box-shadow: var(--card-shadow);
+}
+
+.modal-header {
+    background-color: var(--primary-red);
+    color: var(--white);
+    border-bottom: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 1.5rem;
+}
+
+.modal-title {
+    font-weight: 600;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--lighter-gray);
+    padding: 1rem 1.5rem;
+}
+
+/* Form Styles */
+.form-control {
+    border: 2px solid var(--lighter-gray);
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: var(--border-radius);
+    border: none;
+    box-shadow: var(--card-shadow);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1rem;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: none;
+        gap: 0.5rem;
+    }
+
+    .sidebar ul li {
+        flex: 0 0 auto;
+        margin: 0;
+    }
+
+    .sidebar ul li:hover,
+    .sidebar ul li.active {
+        transform: translateY(-2px);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-text {
+        font-size: 1.5rem;
+    }
+
+    .btn-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+    }
+}
+
+/* Utility Classes */
+.text-red {
+    color: var(--primary-red) !important;
+}
+
+.bg-red {
+    background-color: var(--primary-red) !important;
+}
+
+.border-red {
+    border-color: var(--primary-red) !important;
+}
+#monthList li a 
+{
+    text-decoration: none;
+    font-size: 18px;
+    color: #FFF;
+   
+}
+#monthList li a:hover
+{
+    text-decoration: none;
+    font-size: 18px;
+    color: #000;
+   
+}
+ </style>
+</head>
+
+<body>
+
+
+<style>
+.img-preview {
+    width: 256px;
+    height: 256px;
+    position: relative;
+    border: 5px solid #F8F8F8;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    margin-top: 1em;
+    margin-bottom: 1em;
+    align : center
+}
+
+.img-preview>div {
+    width: 100%;
+    height: 100%;
+    background-size: 256px 256px;
+    background-repeat: no-repeat;
+    background-position: center;
+    align : center
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-label{
+    display: inline-block;
+    padding: 12px 30px;
+    background: #39D2B4;
+    color: #fff;
+    font-size: 1em;
+    transition: all .4s;
+    cursor: pointer;
+    align : center
+}
+
+.upload-label:hover{
+    background: #34495E;
+    color: #39D2B4;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.btn-primary {
+    background: #dc3545;
+    border: none;
+    border-radius: 50px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(227, 24, 55, 0.3);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.5s ease;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+</style>
+
+<!-- ------------------------------Base.html Code ------------------------------------------------------ -->
+
+<head>
+    <link href="images/graps.png" rel="icon">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blood Group Detection</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+
+</head>
+
+<body class="bg-light" style="background: url(static/1.webp) repeat-y; background-size: 100%;">
+<!-- ------------------------------JavaScript Code ------------------------------------------------------ -->
+
+<script>
+    $(document).ready(function () {
+    // Init
+    $('.image-section').hide();
+    $('.loader').hide();
+    $('#result').hide();
+
+    // Upload Preview
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(650);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imageUpload").change(function () {
+        $('.image-section').show();
+        $('#btn-predict').show();
+        $('#result').text('');
+        $('#result').hide();
+        readURL(this);
+    });
+
+    // Predict
+    $('#btn-predict').click(function () {
+        var form_data = new FormData($('#upload-file')[0]);
+
+        // Show loading animation
+        $(this).hide();
+        $('.loader').show();
+
+        // Make prediction by calling api /predict
+        $.ajax({
+            type: 'POST',
+            url: '/predict',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            async: true,
+            success: function (data) {
+                // Get and display the result
+                $('.loader').hide();
+                $('#result').fadeIn(600);
+                $('#result').text(' Predicted Fruit Quality is :  ' + data);
+                console.log('Success!');
+            },
+        });
+    });
+
+});
+
+</script>
+ <div class="sidebar">
+        <h4>Blood Group Detection Using Fingerprint Image</h4>
+        <ul id="monthList">
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Predict</a></li>
+             <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+
+  <main id="main-content">
+
+    
+<div style="background:#FFF;width: 100%;margin: 0 auto;padding: 100px 0;">
+<center><h2 style="text-transform: capitalize;">Upload Finger Print Images</h2></center>
+
+<div><center>
+    <form id="upload-file" method="post" enctype="multipart/form-data">
+        <label for="imageUpload" class="upload-label">
+            Select a  Image...
+        </label>
+
+        <input type="file" name="file" id="imageUpload" > <!--file -->
+
+    </form>
+
+    <div class="image-section" style="display:none;">
+        <div class="img-preview">
+            <div id="imagePreview">
+            </div>
+        </div>
+        <div>
+            <!-- Predict Button -->
+            <button type="button" class="btn btn-primary btn-lg" id="btn-predict" style="width:300px;margin:0 auto;background: #dc3545 !important;">Predict Blood Group</button>
+        </div>
+    </div>
+
+    <div class="loader" style="display:none;"></div>
+
+    <h3 id="result">
+        <span> </span>
+    </h3>
+
+</center></div></div>
+
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}" type="text/javascript"></script>
+
+
+    <br>
+
+    
+
+
+    
+
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Teams Section -->
+
+
+
+
+
+
+
+    
+
+    
+
+  </main><!-- End #main -->
+
+  
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="static/assets/vendor/aos/aos.js"></script>
+  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="static/assets/js/main.js"></script>
+    
+</body>
+
+</html>
+
+
+

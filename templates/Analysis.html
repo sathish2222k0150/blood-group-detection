@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Groups Information</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1>Understanding Blood Groups</h1>
+            <p>Your comprehensive guide to blood types, compatibility, and health</p>
+        </header>
+
+        <main class="container">
+            <!-- Overview Section -->
+            <section class="overview">
+                <h2>Blood Type Overview</h2>
+                <div class="blood-types-grid">
+                    <!-- Blood Type A -->
+                    <div class="blood-type-card">
+                        <img src="{{ url_for('static', filename='uploads/blood-drive-new-300x190.jpg') }}" alt="Blood Drive">
+                        <div class="card-content">
+                            <h3>Type A</h3>
+                            <ul>
+                                <li>Strong immune system</li>
+                                <li>Lower risk of heart disease</li>
+                                <li>Sensitive digestive system</li>
+                                <li>Higher stress levels</li>
+                                <li>Better response to vegetarian diets</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Blood Type B -->
+                    <div class="blood-type-card">
+                        <img src="{{ url_for('static', filename='uploads/da709a95cd7851d462c0499d31496577.webp') }}" alt="Blood Drive">
+                        <div class="card-content">
+                            <h3>Type B</h3>
+                            <ul>
+                                <li>Strong metabolism</li>
+                                <li>Balanced immune system</li>
+                                <li>Flexible dietary needs</li>
+                                <li>Good stress management</li>
+                                <li>Resistant to many diseases</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Blood Type AB -->
+                    <div class="blood-type-card">
+                        <img src="{{ url_for('static', filename='uploads/_8eccb1cc-eb94-11ea-83c1-09a59be16170.avif') }}" alt="Blood Drive">
+                        <div class="card-content">
+                            <h3>Type AB</h3>
+                            <ul>
+                                <li>Universal plasma donor</li>
+                                <li>Adaptable digestive system</li>
+                                <li>Unique immune characteristics</li>
+                                <li>Higher cognitive function</li>
+                                <li>Complex dietary requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Blood Type O -->
+                    <div class="blood-type-card">
+                        <img src="{{ url_for('static', filename='uploads/download.jpeg') }}" alt="Blood Drive">
+                        <div class="card-content">
+                            <h3>Type O</h3>
+                            <ul>
+                                <li>Universal donor</li>
+                                <li>Strong physical endurance</li>
+                                <li>Efficient digestion</li>
+                                <li>Natural leadership traits</li>
+                                <li>Higher metabolism rate</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Compatibility Chart -->
+            <section class="compatibility">
+                <h2>Blood Type Compatibility Chart</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Blood Type</th>
+                                <th>Can Give To</th>
+                                <th>Can Receive From</th>
+                                <th>Universal Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Type A</td>
+                                <td>A, AB</td>
+                                <td>A, O</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Type B</td>
+                                <td>B, AB</td>
+                                <td>B, O</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Type AB</td>
+                                <td>AB only</td>
+                                <td>All Types</td>
+                                <td>Universal Recipient</td>
+                            </tr>
+                            <tr>
+                                <td>Type O</td>
+                                <td>All Types</td>
+                                <td>O only</td>
+                                <td>Universal Donor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Disclaimer: This information is for educational purposes only. Consult healthcare professionals for medical advice.</p>
+            <p>© 2025 Blood Type Information Center. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

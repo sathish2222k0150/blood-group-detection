@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Group Detection</title>
+</head>
+<body>
+    <div class="min-h-screen">
+        <!-- Hero Section -->
+        <header class="hero"> 
+            <div class="hero-overlay"></div>
+            <div class="container">
+                <div class="hero-content animate-fade-in">
+                    <h1 class="animate-slide-up">Blood Group Detection</h1>
+                    <p class="animate-slide-up-delay">Revolutionary fingerprint-based blood type analysis</p>
+                    <div class="button-group">
+                        <button id="getStartedBtn"  class="btn btn-primary animate-bounce-subtle">Get Started</button>
+                        <button class="btn btn-outline animate-bounce-subtle"><a href="https://www.redcrossblood.org/donate-blood/blood-types.html"style="text-decoration: none; color: inherit;">Learn More</button></a>
+                    </div>
+                </div>
+                <script>
+                    document.getElementById("getStartedBtn").addEventListener("click", function() {
+                        window.location.href = "{{ url_for('login') }}";
+                    });
+                </script>
+                <div class="scroll-indicator">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </header>
+        <style>
+            /* Base Styles */
+:root {
+    --primary-color: #dc2626;
+    --primary-hover: #b91c1c;
+    --text-color: #1f2937;
+    --text-light: #4b5563;
+    --bg-light: #fef2f2;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+h1, h2, h3 {
+    line-height: 1.2;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceSoft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+.animate-slide-up-delay {
+    animation: slideUp 0.8s ease-out 0.2s both;
+}
+
+.animate-bounce-subtle {
+    animation: bounceSoft 2s infinite;
+}
+
+/* Hero Section */
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: url("{{ url_for('static', filename='uploads/back.png') }}") center/cover no-repeat;
+}
+
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--white);
+    opacity: 0.8;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-size: 3.75rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: scale(1.05);
+}
+
+.btn-outline {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: var(--bg-light);
+    transform: scale(1.05);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--primary-color);
+    animation: bounceSoft 2s infinite;
+}
+
+/* Features Section */
+.features {
+    padding: 5rem 0;
+    background: var(--white);
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-0.5rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card .icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    color: var(--primary-color);
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* How It Works Section */
+.how-it-works {
+    padding: 5rem 0;
+    background: var(--bg-light);
+}
+
+.how-it-works h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    position: relative;
+}
+
+.step-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-0.5rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+    width: 3rem;
+    height: 3rem;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-weight: bold;
+}
+
+/* Benefits Section */
+.benefits {
+    padding: 5rem 0;
+    background: var(--white);
+}
+
+.benefits h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    align-items: center;
+}
+
+.benefits-image {
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+.benefits-image img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.benefits-image:hover img {
+    transform: scale(1.05);
+}
+
+.benefit-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.benefit-item .icon {
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+/* CTA Section */
+.cta {
+    padding: 5rem 0;
+    background: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.btn-white {
+    background: var(--white);
+    color: var(--primary-color);
+    border: none;
+}
+
+.btn-white:hover {
+    background: var(--bg-light);
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background: #111827;
+    color: var(--white);
+    padding: 3rem 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--primary-color);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-bottom {
+    border-top: 1px solid #374151;
+    padding-top: 2rem;
+    text-align: center;
+    color: #9ca3af;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.25rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        </style>
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2>Why Choose Our Technology?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Fast & Non-Invasive</h3>
+                        <p>Get results in seconds without any blood samples</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0112.952 11"></path>
+                            </svg>
+                        </div>
+                        <h3>Highly Accurate</h3>
+                        <p>Advanced AI algorithms ensure precise results</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h3>Secure & Private</h3>
+                        <p>Your data is protected with end-to-end encryption</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Scan Fingerprint</h3>
+                        <p>Place your finger on the scanner</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Analysis</h3>
+                        <p>AI analyzes unique patterns</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Processing</h3>
+                        <p>Advanced algorithms predict blood group</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Results</h3>
+                        <p>Instant and accurate results</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits">
+            <div class="container">
+                <h2>Who Can Benefit?</h2>
+                <div class="benefits-grid">
+                    <div class="benefits-image">
+                        <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80" alt="Hospital">
+                    </div>
+                    <div class="benefits-content">
+                        <div class="benefit-item">
+                            <div class="icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Hospitals & Clinics</h3>
+                                <p>Quick and efficient patient screening without the need for traditional blood tests.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Blood Banks</h3>
+                                <p>Streamline the donation process with instant blood type verification.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 00-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 010 7.75"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Emergency Services</h3>
+                                <p>Critical information available within seconds in emergency situations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to Get Started?</h2>
+                <p>Join the future of blood type detection technology</p>
+                <button id="demoButton" class="btn btn-white">
+                    Schedule a Demo
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2H6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </button>
+            </div>
+        </section>
+        <script>
+    document.getElementById("demoButton").addEventListener("click", function() {
+        window.location.href = "{{ url_for('login') }}";
+    });
+</script>
+        <!-- Footer -->
+       <footer>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Blood Group Detection. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
